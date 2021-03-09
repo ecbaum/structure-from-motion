@@ -5,8 +5,6 @@ N = 4; % Four point DLT
 T = DLT_normalization(X); % Calculate normalization matrix
 T_p = DLT_normalization(X_p);
 
-%T = eye(3); T_p = eye(3);
-
 Xn = T*[X; ones(1,N)];   % Normalize the points
 Xn_p = T_p*[X_p; ones(1,N)];
 
@@ -30,5 +28,7 @@ H_hat = reshape(V(:,end),[3,3]); % Get solution to homography problem
 
 H = inv(T_p)*H_hat.'*T; % Account for normalization
 
-%end
+% P = [H(:,1:2), cross(H(:,1),H(:,2)), H(:,3)]
+
+end
 

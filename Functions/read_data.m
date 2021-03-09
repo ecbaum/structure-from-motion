@@ -1,7 +1,7 @@
-function imgs = read_data()
+function imgs = read_data(name)
 addpath('Functions')
 
-path1 = 'Data/wall/';
+path1 = ['Data/' name '/'];
 
 N = 6;
 
