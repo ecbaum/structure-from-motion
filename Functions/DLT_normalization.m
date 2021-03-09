@@ -6,6 +6,5 @@ function T = DLT_normalization(X)
     S = sqrt(2)*diag([1/D, 1/D]); % Normalize distance to sqrt(2)
     
     T = [S, S*t; [0 0 1]];   % Scaling is applied after translation;
-    
 end
 

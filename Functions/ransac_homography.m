@@ -1,4 +1,4 @@
-function [U, nbr_inliers] = ransac_homography(X1, X2, threshold)
+function [P, nbr_inliers] = ransac_homography(X1, X2, threshold)
 
     m = size(X1,2);
     n = 4;                   % Nr of points used for model fitting
@@ -10,11 +10,14 @@ function [U, nbr_inliers] = ransac_homography(X1, X2, threshold)
         N = N+1;    
         
         test_points = randperm(m,n);
-        Uc = DLT_homography(X1(:,test_points), X2(:,test_points)); % Candidate solution
+        
+        H_c = DLT_homography(X1(:,test_points), X2(:,test_points)); % Candidate solution
+
+        P_c = [H_c(:,1:2),cross(H_c(:,1),H_c(:,2)), H_c(:,3)];
         
         % Finds number of points within tau
-        errors = %% Calculate errors 
-
+        
+        errors = homography_error(X1, X2, P_c); % Check reprojection errors for candidate camera matrix
         is_inlier = find(errors<threshold);
         nbr_inliers = length(is_inlier);
         inlier_ratio = nbr_inliers/m;
@@ -23,7 +26,7 @@ function [U, nbr_inliers] = ransac_homography(X1, X2, threshold)
         if inlier_ratio > epsilon
             % Updates best solution
             
-            U = Uc;
+            P = P_c;
             
             % Updates epsilon and N_max
             epsilon = inlier_ratio;

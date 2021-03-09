@@ -1,21 +1,24 @@
-function H = DLT_homography(X1, X2)
+function H = DLT_homography(X, X_p) % H*X = X_p
 
 N = 4; % Four point DLT
 
-T1 = DLT_normalization(X1); % Calculate normalization matrix
-T2 = DLT_normalization(X2);
+T = DLT_normalization(X); % Calculate normalization matrix
+T_p = DLT_normalization(X_p);
 
-X1n = T1*[X1; ones(1,N)];   % Normalize the coordinates
-X2n = T2*[X2; ones(1,N)];
+%T = eye(3); T_p = eye(3);
+
+Xn = T*[X; ones(1,N)];   % Normalize the points
+Xn_p = T_p*[X_p; ones(1,N)];
 
 A = zeros(2*N,9);
 
 for i = 1:N
-    x1 = X1n(1,i); y1 = X1n(2,i); 
-    x2 = X2n(1,i); y2 = X2n(2,i);
+    u = Xn(1,i); v = Xn(2,i); 
+    u_p = Xn_p(1,i); v_p = Xn_p(2,i);
     
-    Ai = [0, 0, 0, -x2, -y2, -1, y2*x1, y2*y1, y2;
-          x1, y1, 1, 0, 0, 0, -x2*x1, -x2*y1, -x2]; 
+    
+    Ai = [0, 0, 0, -u, -v, -1, v_p*u, v_p*v, v_p;
+          u, v, 1, 0, 0, 0, -u_p*u, -u_p*v, -u_p]; 
       
     A((2*i-1):(2*i),:) = Ai; % Assemble A-matrix
 end
@@ -23,9 +26,9 @@ end
 
 [~,~,V] = svd(A); 
 
-sol = reshape(V(:,end),[3,3]); % Get solution to homography problem
+H_hat = reshape(V(:,end),[3,3]); % Get solution to homography problem
 
-H = inv(T2)*sol*T1; % Account for normalization
+H = inv(T_p)*H_hat.'*T; % Account for normalization
 
-end
+%end
 

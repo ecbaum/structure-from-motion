@@ -1,3 +1,4 @@
+function imgs = read_data()
 addpath('Functions')
 
 path1 = 'Data/wall/';
@@ -11,4 +12,4 @@ for i = 1:N
     imgs{i} = read_as_grayscale(image_name);
 end
 
-clear path1; clear N; clear i; clear image_name;
+end
