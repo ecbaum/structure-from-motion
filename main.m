@@ -3,14 +3,17 @@ clear all; clc
 addpath('Functions'); addpath('sift')
 imgs = read_data('wall');
 
-img1 = imgs{1};
-img2 = imgs{2};
+img1 = imgs{4};
+img2 = imgs{5};
 
 [pts1, descs1] = extractSIFT(img1); 
 [pts2, descs2] = extractSIFT(img2); 
-corrs = matchFeatures(descs1', descs2', 'MaxRatio', 0.4, 'Ma    tchThreshold', 100); 
+corrs = matchFeatures(descs1', descs2', 'MaxRatio', 0.6, 'MatchThreshold', 100); 
 X1 = pts1(:,corrs(:,1));
 X2 = pts2(:,corrs(:,2));
+%%
+show_alignment(img1,img2,X1,X2)
+
 %%
 clf
 subplot(1,2,1)
@@ -35,5 +38,5 @@ diff = X_hat_p - X_p
 error = sum(sqrt(diff(1,:).^2 + diff(2,:).^2))
 
 %%
-[H, nbr_inliers] = ransac_homography(X1, X2, 4)
+[H, num_outliers, ratio] = ransac_homography2(X1, X2, 4);
 

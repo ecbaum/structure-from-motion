@@ -1,22 +1,22 @@
-function homography = homography_estimation_images(imgs)
+function img_hom = homography_estimation_images(imgs, MaxRatio, epsilon)
 
-homography = cell(1,length(imgs));
+N = length(imgs);
+img_hom = cell(1,N-1);
 
-imgA = imgs{1};
-for i = 1:6
+
+for i = 1:N-1
+    idxA = i+1;
+    idxB = i;
     
-    imgB = imgs{2};
+    imgA = imgs{idxA};
+    imgB = imgs{idxB};
 
-    [pts1, descs1] = extractSIFT(imgA); 
-    [pts2, descs2] = extractSIFT(imgB); 
-    corrs = matchFeatures(descs1', descs2', 'MaxRatio', 0.4, 'MatchThreshold', 100); 
-    X1 = pts1(:,corrs(:,1));
-    X2 = pts2(:,corrs(:,2));
-
-    [H, nbr_inliers] = ransac_homography(X1, X2, 3);
+    [H, num_inliers, ratio] = homography_AtoB(imgA, imgB, MaxRatio, epsilon);
     
-    homography{i}.H = H;
-    homography{i}.inliers = nbr_inliers;
+    img_hom{i}.H = H;
+    img_hom{i}.desc = ['img' num2str(idxA) '->' 'img' num2str(idxB)];
+    img_hom{i}.num_inliers = num_inliers;
+    img_hom{i}.ratio = ratio;
     
 end
 
