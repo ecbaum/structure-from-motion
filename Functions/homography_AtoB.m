@@ -11,5 +11,5 @@ X2 = pts2(:,corrs(:,2));
 
 [H, num_inliers, ratio] = ransac_homography2(X1, X2, epsilon);
 
-disp(['Homography from ' imgA_name ' to ' imgB_name])
-disp(['Number of inliers: ' num2str(num_inliers) ', ratio: ' num2str(ratio)])
+%disp(['H:' imgA_name ' -> ' imgB_name])
+%disp(['Number of inliers: ' num2str(num_inliers) ', ratio: ' num2str(ratio)])
