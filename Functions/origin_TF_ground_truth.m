@@ -21,6 +21,7 @@ else % Flip direction of all H which doesnt lead to origin, so it goes from idx 
         end
     end
 end
+
 origin_TF_GT = origin_TF;
 
 for i = 2:length(origin_TF) % Reassign the H to be the ground truth to origin

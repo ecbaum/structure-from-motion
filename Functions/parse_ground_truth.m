@@ -4,14 +4,14 @@ N = 6;
 
 ground_truth = cell(1,N-1);
 
-path = ['Data/' name '/'];
+path1 = ['Data/' name '/'];
 
 
 for i = 2:N
-    filename = [path, 'H1to', num2str(i), 'p.txt'];
-    
+    filename = [path1, 'H1to', num2str(i), 'p.txt'];
     gt.H = str2num(fileread(filename));
     gt.idx = i;
     ground_truth{i-1} = gt;
+    clear gt;
 end
 
