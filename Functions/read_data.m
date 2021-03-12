@@ -1,7 +1,7 @@
 function imgs = read_data(name)
 addpath('Functions')
 
-path1 = ['Data/' name '/'];
+path = ['Data/' name '/'];
 
 N = 6;
 
@@ -14,7 +14,7 @@ else
 end
 
 for i = 1:N
-    image_name = [path1, 'img', num2str(i), extension];
+    image_name = [path, 'img', num2str(i), extension];
     imgs{i} = read_as_grayscale(image_name);
 end
 
