@@ -29,7 +29,6 @@ H_hat = reshape(V(:,end),[3,3]); % Get solution to homography problem
 H = inv(T_p)*H_hat.'*T; % Account for normalization
 
 H = H/H(3,3);
-% P = [H(:,1:2), cross(H(:,1),H(:,2)), H(:,3)]
 
 end
 

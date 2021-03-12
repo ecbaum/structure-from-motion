@@ -11,14 +11,7 @@ end
 
 M = size(idx,1);
 
-%M = 6;
-
 img_hom = cell(1,M);
-
-%for i = 1:M-1
-%     idxA = i+1;
-%     idxB = i;
-
 for i = 1:M
     idxA = idx(i,1);
     idxB = idx(i,2);

@@ -31,10 +31,6 @@ for k = 1:length(img_hom) % Get the number of images
     end
 end
 
-
-
-
-
 for k = 1:N-2
     for i=1:length(img_hom) % Select first index which has some transform from outside to included_image_indices
         hom = img_hom{i};   % because img_hom is sorted according to inliers the first selected will have the most
