@@ -36,3 +36,4 @@ function [H, nbr_inliers] = ransac_homography(X1, X2, threshold)
         end
     end
 end
+

@@ -1,4 +1,4 @@
-function [H, nbr_inliers, ratio] = ransac_homography2(X1, X2, threshold)
+function [H, nbr_inliers, ratio, inliers1, inliers2] = ransac_homography2(X1, X2, threshold)
 K_max = 1000;
 
 current_lowest_num_outliers = inf;
@@ -23,10 +23,15 @@ for k = 1:K_max
     errors = sqrt(diff(1,:).^2 + diff(2,:).^2);
     nbr_outliers = sum(errors>threshold);
     
+    inlier_index = errors<=threshold;
+    
     if nbr_outliers < current_lowest_num_outliers
         current_lowest_num_outliers = nbr_outliers;
         H = H_c;
         nbr_inliers = m - nbr_outliers;
         ratio = nbr_inliers/m;
+        inliers1 = X1(:,inlier_index);
+        inliers2 = X2(:,inlier_index);
+    
     end
 end
