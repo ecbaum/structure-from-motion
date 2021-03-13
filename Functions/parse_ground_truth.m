@@ -12,6 +12,5 @@ for i = 2:N
     gt.H = str2num(fileread(filename));
     gt.idx = i;
     ground_truth{i-1} = gt;
-    clear gt;
 end
 

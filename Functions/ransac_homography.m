@@ -1,39 +1,36 @@
-function [H, nbr_inliers] = ransac_homography(X1, X2, threshold)
+function [H, nbr_inliers, ratio, inliers1, inliers2, corrs] = ransac_homography2(X1, X2, threshold, corrs)
+K_max = 1000;
 
-    m = size(X1,2);
-    n = 4;                   % Nr of points used for model fitting
-    eta = 0.01;              % Probabilty of faliure
-    epsilon = 0.01;          % Initial estimated inlier ration
-    N_max = ceil(log(eta)./log(1-epsilon.^(n))); % Initial N_max
-    N = 0;
-    while N < N_max
-        N = N+1;    
-        
-        test_points = randperm(m,n);
-        
-        H_c = DLT_homography(X1(:,test_points), X2(:,test_points)); % Candidate solution
+current_lowest_num_outliers = inf;
 
-       % P_c = [H_c(:,1:2),cross(H_c(:,1),H_c(:,2)), H_c(:,3)];
-        
-        % Finds number of points within tau
-        
-        diff = X2 - dehom( H_c*hom(X1) );
-        errors = sqrt(diff(1,:).^2 + diff(2,:).^2);
-        is_inlier = find(errors<threshold);
-        nbr_inliers = length(is_inlier);
-        inlier_ratio = nbr_inliers/m;
-        
-        % Evaluates model based on current inlier ration
-        if inlier_ratio > epsilon
-            % Updates best solution
-            
-            H = H_c;
-            
-            % Updates epsilon and N_max
-            epsilon = inlier_ratio;
-            N_max = ceil(log(eta)./log(1-epsilon.^(n)));
-            
-        end
-    end
+m = size(X1,2);
+n = 4;  
+
+if m < 4
+    H = [];
+    nbr_inliers = 0;
+    ratio = [];
+    return;
 end
 
+for k = 1:K_max
+   
+    test_points = randperm(m,n);
+        
+    H_c = DLT_homography(X1(:,test_points), X2(:,test_points));
+    
+    diff = X2 - dehom( H_c*hom(X1) );
+    errors = sqrt(diff(1,:).^2 + diff(2,:).^2);
+    nbr_outliers = sum(errors>threshold);
+    
+    if nbr_outliers < current_lowest_num_outliers
+        current_lowest_num_outliers = nbr_outliers;
+        H = H_c;
+        nbr_inliers = m - nbr_outliers;
+        ratio = nbr_inliers/m;
+        inlier_index = errors<=threshold;
+    end
+end
+corrs = corrs(inlier_index,:);
+inliers1 = X1(:,inlier_index);
+inliers2 = X2(:,inlier_index);

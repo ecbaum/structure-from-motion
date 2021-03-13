@@ -1,5 +1,9 @@
 function origin_TF_GT = origin_TF_ground_truth(origin_TF, ground_truth)
-    
+
+
+% structure of the ground truth is H from image1 to all other
+% we can use image1 as a gate to all other images
+
 origin = origin_TF{1}.idx_from; % First element transform from origin to origin with H = eye(3);
 
 if origin == 1 

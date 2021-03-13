@@ -21,7 +21,7 @@ for i = 1:M
     imgA = imgs{idxA};
     imgB = imgs{idxB};
 
-    [H, num_inliers, ratio, inliersA, inliersB] = homography_AtoB(imgA, imgB, MaxRatio, epsilon);
+    [H, num_inliers, ratio, inliersA, inliersB, corrs] = homography_AtoB(imgA, imgB, MaxRatio, epsilon);
     
     
     img_hom{i}.H = H;
@@ -29,10 +29,12 @@ for i = 1:M
     img_hom{i}.idx_to = idxB;
     img_hom{i}.img_from = imgA;
     img_hom{i}.img_to = imgB;
-    img_hom{i}.num_inliers = num_inliers;
     img_hom{i}.inliers_from = inliersA;
     img_hom{i}.inliers_to = inliersB;
+    img_hom{i}.corrs = corrs;
+    img_hom{i}.num_inliers = num_inliers;
     img_hom{i}.ratio = ratio;
+    
     
 end
 % sorting proceedure 

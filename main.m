@@ -1,7 +1,7 @@
 clear all; clc
 addpath('Functions'); addpath('sift')
 
-data_set = 'bark';
+data_set = 'graf';
 
 imgs = read_data(data_set);
 
