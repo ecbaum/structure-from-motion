@@ -1,4 +1,4 @@
-function [H, num_inliers, ratio, XA, XB, corrs] = homography_AtoB(imgA, imgB, MaxRatio, epsilon)
+function [H, num_inliers, ratio, ptsA, ptsB, corrs] = homography_AtoB(imgA, imgB, MaxRatio, epsilon)
 
 [ptsA, descs1] = extractSIFT(imgA); 
 [ptsB, descs2] = extractSIFT(imgB); 
@@ -7,3 +7,4 @@ XA = ptsA(:,corrs(:,1));
 XB = ptsB(:,corrs(:,2));
 
 [H, num_inliers, ratio] = ransac_homography(XA, XB, epsilon);
+
