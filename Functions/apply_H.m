@@ -1,5 +1,5 @@
-function inl_p = apply_H(H, inl)
+function inl_p = apply_H(H, pts)
 
-    inl_p = dehom(H*hom(inl));
+    inl_p = dehom(H*hom(pts));
 
 end

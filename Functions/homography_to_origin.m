@@ -8,15 +8,18 @@ disp(['img' num2str(img_hom{1}.idx_to) ' selected as origin'])
 
 TF.idx_from = img_hom{1}.idx_to;
 TF.H = eye(3);
-TF.inl = img_hom{1}.inliers_to;
 TF.route = [origin];
+TF.corr_origin = [1:length(img_hom{1}.pts_to); 1:length(img_hom{1}.pts_to)];
+TF.pts = img_hom{1}.pts_to;
 origin_TF = {TF};
+
 
 
 TF.idx_from = img_hom{1}.idx_from;  % origin_TF is a list from transforms
 TF.H = img_hom{1}.H;                % from an image index to origin
-TF.inl = img_hom{1}.inliers_from;
 TF.route = [origin, img_hom{1}.idx_from];
+TF.corr_origin = img_hom{1}.corrs;
+TF.pts = img_hom{1}.pts_from;
 origin_TF = [origin_TF, {TF}];                   % here we add the index from the first hom
 
 
@@ -49,12 +52,12 @@ for k = 1:N-2
         H = inv(hom.H);      % and which way the transform is 
         connection_to = hom.idx_from;
         connection_from = hom.idx_to;
-        inliers = hom.inliers_to;
+        pts = hom.pts_to;
     else
         H = hom.H;
         connection_to = hom.idx_to;
         connection_from = hom.idx_from;
-        inliers = hom.inliers_from;
+        pts = hom.pts_from;
     end
 
 
@@ -68,10 +71,11 @@ for k = 1:N-2
     included_image_indices = [included_image_indices, connection_from];
     TF.idx_from = connection_from;  
     TF.H = H_origin; 
-    TF.inl = inliers;
-    TF.route = [route,connection_from];
+    TF.route = [route, connection_from];
+    TF.pts = pts;
+    
     origin_TF = [origin_TF {TF}];
-
+    
 end
 
 

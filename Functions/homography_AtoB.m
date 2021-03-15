@@ -1,9 +1,9 @@
-function [H, num_inliers, ratio, inliersA, inliersB, corrs] = homography_AtoB(imgA, imgB, MaxRatio, epsilon)
+function [H, num_inliers, ratio, XA, XB, corrs] = homography_AtoB(imgA, imgB, MaxRatio, epsilon)
 
-[pts1, descs1] = extractSIFT(imgA); 
-[pts2, descs2] = extractSIFT(imgB); 
+[ptsA, descs1] = extractSIFT(imgA); 
+[ptsB, descs2] = extractSIFT(imgB); 
 corrs = matchFeatures(descs1', descs2', 'MaxRatio', MaxRatio, 'MatchThreshold', 100,'Unique', true); 
-X1 = pts1(:,corrs(:,1));
-X2 = pts2(:,corrs(:,2));
+XA = ptsA(:,corrs(:,1));
+XB = ptsB(:,corrs(:,2));
 
-[H, num_inliers, ratio, inliersA, inliersB, corrs] = ransac_homography(X1, X2, epsilon, corrs);
+[H, num_inliers, ratio] = ransac_homography(XA, XB, epsilon);
