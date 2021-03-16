@@ -23,7 +23,7 @@ for i = 1:M
 
     [H, num_inliers, ratio, ptsA, ptsB, corrs] = homography_AtoB(imgA, imgB, MaxRatio, epsilon, ransac_iter);
     
-    disp(['img' num2str(idxA) ' <-> ' 'img' num2str(idxB) ',    inl.: ' num2str(num_inliers)])
+    disp([pad(num2str(i),2,'left') ': ' 'img' num2str(idxA) ' <-> ' 'img' num2str(idxB) ',    inl.: ' num2str(num_inliers)])
     
     img_hom{i}.H = H;
     img_hom{i}.idx_from = idxA;

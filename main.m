@@ -1,13 +1,13 @@
 clear all; close all; clc
 addpath('Functions'); addpath('sift')
 
-data_set = 'graf';
+data_set = 'wall';
 
 imgs = read_data(data_set);
 
-ransac_iterations = 5000;
-ransac_threshold = 1;
-correspondance_threshold = 0.6;
+ransac_iterations = 6000;
+ransac_threshold = 0.3;
+correspondance_threshold = 0.4;
 
 img_hom = homography_estimation_images(imgs, correspondance_threshold, ransac_threshold, ransac_iterations);
 

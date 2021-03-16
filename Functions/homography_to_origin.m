@@ -3,8 +3,8 @@ function origin_TF = homography_to_origin(img_hom)
 
 origin = img_hom{1}.idx_to;         % Select origin
 
-
-disp([newline 'img' num2str(img_hom{1}.idx_to) ' selected as origin'])
+disp([newline 'Calculating homografy paths to global origin'])
+disp(['img' num2str(img_hom{1}.idx_to) ' selected as origin'])
 
 TF.idx_from = img_hom{1}.idx_to;
 TF.H = eye(3);
@@ -77,7 +77,7 @@ for k = 1:N-2
     origin_TF = [origin_TF {TF}];
     
     route_str = sprintf('%.0f,' , flip(route)); route_str = route_str(1:end-1);
-    disp(['img' num2str(connection_from) ':   inl. to ' num2str(connection_to) ': ' num2str(hom.num_inliers) ',    path: ' route_str])
+    disp(['img' num2str(connection_from) ':   inl. to ' num2str(connection_to) ': ' pad([num2str(hom.num_inliers),','],4) '    path: ' route_str])
     
 end
 
