@@ -8,3 +8,4 @@ XB = ptsB(:,corrs(:,2));
 
 [H, num_inliers, ratio] = ransac_homography(XA, XB, epsilon, ransac_iter);
 
+corrs = corrs.';

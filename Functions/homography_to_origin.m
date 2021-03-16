@@ -3,17 +3,17 @@ function origin_TF = homography_to_origin(img_hom)
 
 origin = img_hom{1}.idx_to;         % Select origin
 
-disp([newline 'Calculating homografy paths to global origin'])
+disp([newline 'Calculating homografy paths to global origin. Chooses next homography with a greedy algorithm'])
 disp(['img' num2str(img_hom{1}.idx_to) ' selected as origin'])
+
+% Manually add the first two.
 
 TF.idx_from = img_hom{1}.idx_to;
 TF.H = eye(3);
 TF.route = [origin];
-TF.corr_origin = [1:length(img_hom{1}.pts_to); 1:length(img_hom{1}.pts_to)];
+TF.corrs_origin = [];
 TF.pts = img_hom{1}.pts_to;
 origin_TF = {TF};
-
-
 
 TF.idx_from = img_hom{1}.idx_from;  % origin_TF is a list from transforms
 TF.H = img_hom{1}.H;                % from an image index to origin
@@ -24,8 +24,7 @@ origin_TF = [origin_TF, {TF}];                   % here we add the index from th
 
 
 included_image_indices = [img_hom{1}.idx_to, img_hom{1}.idx_from]; % Store some necessary information
-    disp(['img' num2str(TF.idx_from) ':   inl. to ' num2str(origin) ': ' num2str(img_hom{1}.num_inliers) ',    path: ' num2str(origin)])
-%included_homs = {img_hom{1}}; 
+disp(['img' num2str(TF.idx_from) ':   inl. to ' num2str(origin) ': ' num2str(img_hom{1}.num_inliers) ',    path: ' num2str(origin)])
 
 N = 0;
 for k = 1:length(img_hom) % Get the number of images
