@@ -38,12 +38,12 @@ for i = 1:M
     end
 
     img_hom{i}.H = H;
-    img_hom{i}.idx_from = idxA;
-    img_hom{i}.idx_to = idxB;
     img_hom{i}.img_from = imgA;
-    img_hom{i}.img_to = imgB;
+    img_hom{i}.idx_from = idxA;
     img_hom{i}.pts_from = ptsA;
-    img_hom{i}.pts_to = ptsB;
+    img_hom{i}.img_to = imgB;
+    img_hom{i}.idx_to = idxB;
+    img_hom{i}.pts_to = ptsB; 
     img_hom{i}.inlier_corrs = inlier_corrs;
     img_hom{i}.num_inliers = num_inliers;
     img_hom{i}.ratio = ratio;

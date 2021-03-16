@@ -25,9 +25,10 @@ for k = 1:K_max
     
     if nbr_outliers < current_lowest_num_outliers
         current_lowest_num_outliers = nbr_outliers;
+        %inlier_index = errors<=threshold;
         H = H_c;
         num_inl = m - nbr_outliers;
         ratio = num_inl/m;
-        inlier_index = errors<=threshold;
+        
     end
 end

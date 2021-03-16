@@ -1,6 +1,6 @@
 function H = DLT_homography(X, X_p) % H*X = X_p
 
-N = 4; % Four point DLT
+N = size(X,2); % Four point DLT
 
 T = DLT_normalization(X); % Calculate normalization matrix
 T_p = DLT_normalization(X_p);
