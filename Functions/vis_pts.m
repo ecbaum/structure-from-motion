@@ -1,16 +1,22 @@
-function vis_pts(origin_TF)
-    figure()
+function vis_pts(origin_TF,origin_TF_GT)
+    figure()    
     subplot(2,3,1)
-    
-   scatter(origin_TF{1}.pts(1,:),origin_TF{1}.pts(2,:),'x','linewidth',1)
+   
+   scatter(origin_TF_GT{1}.pts(1,:),origin_TF_GT{1}.pts(2,:))
+   hold on
+   scatter(origin_TF{1}.pts(1,:),origin_TF{1}.pts(2,:),'.')
    title('origin')
+   
    for i = 2:length(origin_TF)
        subplot(2,3,i)
-       scatter(origin_TF{1}.pts(1,:),origin_TF{1}.pts(2,:),'x','linewidth',1)
+       pts_GT = apply_H(origin_TF_GT{i}.H, origin_TF_GT{i}.pts);
+       scatter(pts_GT(1,:),pts_GT(2,:))
        hold on
-       pts_p = apply_H(origin_TF{i}.H, origin_TF{i}.inl);
-       scatter(pts_p(1,:),pts_p(2,:),'.')
-       title(num2str(i))
+
+       pts = apply_H(origin_TF{i}.H, origin_TF{i}.pts);
+       scatter(pts(1,:),pts(2,:),'.')  
+       legend('GT', 'est.')
+       title(origin_TF{i}.idx_from)
    end
 
 end

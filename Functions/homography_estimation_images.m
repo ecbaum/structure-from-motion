@@ -1,4 +1,4 @@
-function img_hom = homography_estimation_images(imgs, MaxRatio, epsilon)
+function img_hom = homography_estimation_images(imgs, MaxRatio, epsilon, ransac_iter)
 
 idx = [];
 
@@ -10,19 +10,20 @@ for i = 1:(N-1)
 end
 
 M = size(idx,1);
-
+disp('Estimating homographies')
 img_hom = cell(1,M);
 for i = 1:M
     idxA = idx(i,1);
     idxB = idx(i,2);
     
-    disp(['img' num2str(idxA) '->' 'img' num2str(idxB)])
+    
     
     imgA = imgs{idxA};
     imgB = imgs{idxB};
 
-    [H, num_inliers, ratio, ptsA, ptsB, corrs] = homography_AtoB(imgA, imgB, MaxRatio, epsilon);
+    [H, num_inliers, ratio, ptsA, ptsB, corrs] = homography_AtoB(imgA, imgB, MaxRatio, epsilon, ransac_iter);
     
+    disp(['img' num2str(idxA) ' <-> ' 'img' num2str(idxB) ',    inl.: ' num2str(num_inliers)])
     
     img_hom{i}.H = H;
     img_hom{i}.idx_from = idxA;

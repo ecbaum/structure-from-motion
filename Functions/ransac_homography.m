@@ -1,5 +1,5 @@
-function [H, num_inl, ratio] = ransac_homography(X1, X2, threshold)
-K_max = 1000;
+function [H, num_inl, ratio] = ransac_homography(X1, X2, threshold, ransac_iter)
+K_max = ransac_iter;
 
 current_lowest_num_outliers = inf;
 
