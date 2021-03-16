@@ -1,7 +1,7 @@
 clear all; close all; clc
 addpath('Functions'); addpath('sift')
 
-data_set = 'wall';
+data_set = 'graf';
 
 imgs = read_data(data_set);
 

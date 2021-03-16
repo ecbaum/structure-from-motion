@@ -4,7 +4,7 @@ function origin_TF = homography_to_origin(img_hom)
 origin = img_hom{1}.idx_to;         % Select origin
 
 
-disp(['img' num2str(img_hom{1}.idx_to) ' selected as origin'])
+disp([newline 'img' num2str(img_hom{1}.idx_to) ' selected as origin'])
 
 TF.idx_from = img_hom{1}.idx_to;
 TF.H = eye(3);
@@ -17,15 +17,14 @@ origin_TF = {TF};
 
 TF.idx_from = img_hom{1}.idx_from;  % origin_TF is a list from transforms
 TF.H = img_hom{1}.H;                % from an image index to origin
-TF.route = [origin];
+TF.route = [origin, img_hom{1}.idx_from];
 TF.corr_origin = img_hom{1}.corrs;
 TF.pts = img_hom{1}.pts_from;
 origin_TF = [origin_TF, {TF}];                   % here we add the index from the first hom
 
 
 included_image_indices = [img_hom{1}.idx_to, img_hom{1}.idx_from]; % Store some necessary information
-route_str = sprintf('%.0f,' , flip(TF.route)); route_str = route_str(1:end-1);
-    disp(['img' num2str(TF.idx_from) ':   inl. to ' num2str(origin) ': ' num2str(img_hom{1}.num_inliers) ',    path: ' route_str])
+    disp(['img' num2str(TF.idx_from) ':   inl. to ' num2str(origin) ': ' num2str(img_hom{1}.num_inliers) ',    path: ' num2str(origin)])
 %included_homs = {img_hom{1}}; 
 
 N = 0;
