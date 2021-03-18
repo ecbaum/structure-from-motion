@@ -1,15 +1,15 @@
 %% Calculate homograhpies
 
-clear all; close all; clc
+clear all; clc
 addpath('Functions'); addpath('sift')
 
-data_set = 'bark';
+data_set = 'wall';
 
 imgs = read_data(data_set);
 
 ransac_iterations = 20000;
 ransac_threshold = 5;
-correspondance_threshold = 0.95;
+correspondance_threshold = 0.9;
 
 img_hom = homography_estimation_images(imgs, correspondance_threshold, ransac_threshold, ransac_iterations);
 
@@ -28,15 +28,23 @@ for i = 1:length(origin_TF)
 end
 
 
-
-
+feat_trails = feature_trail(corrs_links, origin_TF);
 
 
 %% plot
+close all;
 sparse_map(origin_TF)
 title('estimated')
+
 sparse_map(origin_TF_GT)
 title('ground truth')
+
+figure()
+for i = 1:length(feat_trails)
+scatter(feat_trails{i}.trail(1,:),feat_trails{i}.trail(2,:),'.')
+hold on
+end
+title('feature track');
 
 vis_pts(origin_TF,origin_TF_GT)
 
