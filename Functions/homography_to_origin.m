@@ -30,7 +30,7 @@ corrs_link.H_from_to_origin = origin_TF{1}.H;
 corrs_link.idx_to = img_hom{1}.idx_to;
 corrs_link.corrs_to = img_hom{1}.inlier_corrs(2,:);
 corrs_link.pts_to = img_hom{1}.pts_to;
-corrs_link.H_to_to_origin = [];
+corrs_link.H_to_to_origin = origin_TF{1}.H;
 
 corrs_links = {corrs_link};
 
@@ -110,7 +110,7 @@ for k = 1:N-2
     corrs_links = [corrs_links, corrs_link];
     
     route_str = sprintf('%.0f,' , flip(route)); route_str = route_str(1:end-1);
-    disp(['img' num2str(connection_from) ':   inl. to ' num2str(connection_to) ': ' pad([num2str(hom.num_inliers),','],4) '    path: ' route_str])
+    disp(['img' num2str(connection_from) ':   inl. to ' num2str(connection_to) ': ' pad([num2str(hom.num_inliers),','],5) '    path: ' route_str])
     
 end
 

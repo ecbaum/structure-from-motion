@@ -25,14 +25,11 @@ figure
 showMatchedFeatures(img1,img2,X1',X2')
 
 %%
+%5,4,3
 
-origin_TF{2}
-origin_TF{2}.H
+H45 = img_hom{4}.H;
+H34 = img_hom{5}.H;
+H56 = img_hom{6}.H;
 
+H63 =inv(H34)*inv(H45)*inv(H56);
 
-
-to_origin = ground_truth{2}.H
-
-H2_1 = inv(ground_truth{1}.H);
-
-to_origin*H2_1

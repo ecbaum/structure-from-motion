@@ -3,13 +3,13 @@
 clear all; close all; clc
 addpath('Functions'); addpath('sift')
 
-data_set = 'boat';
+data_set = 'bark';
 
 imgs = read_data(data_set);
 
-ransac_iterations = 5000;
-ransac_threshold = 3;
-correspondance_threshold = 0.5;
+ransac_iterations = 20000;
+ransac_threshold = 5;
+correspondance_threshold = 0.95;
 
 img_hom = homography_estimation_images(imgs, correspondance_threshold, ransac_threshold, ransac_iterations);
 
@@ -21,6 +21,11 @@ ground_truth = parse_ground_truth(data_set);
 
 [origin_TF, corrs_links] = homography_to_origin(img_hom);
 origin_TF_GT = origin_TF_ground_truth(origin_TF, ground_truth);
+
+for i = 1:length(origin_TF)
+    origin_TF{i}.H = origin_TF{i}.H/origin_TF{i}.H(3,3);
+    origin_TF_GT{i}.H = origin_TF_GT{i}.H/origin_TF_GT{i}.H(3,3);
+end
 
 
 
@@ -45,4 +50,3 @@ for i = 2:length(origin_TF)
     averages(i-1) = reprojection_error(pts, H, H_GT);
 end
 averages
-

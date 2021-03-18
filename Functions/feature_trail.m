@@ -1,44 +1,89 @@
 %function feature_trail(corrs_links)
-trail = [];
 
-link = corrs_links{5};
-next_idx = link.idx_to;
+origin = origin_TF{1}.idx_from;
 
+feat_trails = cell(0,0);
 
-pt_idx = 6;
+feat_trail = cell(0,0);
 
-pt_idx_from = link.corrs_from(pt_idx);
-
-H = link.H_from_to_origin;
-trail = [trail, apply_H(H,link.pts_from(:,pt_idx_from))];
-
-while true
-    pt_idx_to = link.corrs_to(pt_idx);
+for i = 1:length(corrs_links)
+    link0 = corrs_links{i}; 
     
-    
-    for i = 1:length(corrs_links)
-        break_while = false;
-        link = corrs_links{i};
-        if link.idx_from == next_idx
-            next_idx = link.idx_to;
-            break;
+    for idx0 = 1:length(link0.corrs_from)
+
+        trail = [];
+
+        idx = idx0;
+        link = link0;
+        idx_list = zeros(1,6);
+
+        idx_corr = link.corrs_from(idx);
+        P = apply_H(link.H_from_to_origin,link.pts_from(:,idx_corr));
+
+        trail = [trail, P];
+        idx_list(link.idx_from) = idx;
+
+        while true
+            idx_corr = link.corrs_to(idx);
+            P = apply_H(link.H_to_to_origin,link.pts_to(:,idx_corr));
+            trail = [trail, P];
+            idx_list(link.idx_to) = idx;
+            
+            if link.idx_to == origin
+                break;
+            end
+
+            for j = 1:length(corrs_links)
+                break_while = true;
+                link2 = corrs_links{j};
+                if link2.idx_from == link.idx_to
+                    break_while = false;
+                    break;
+                end
+            end
+
+            if break_while
+                break
+            end
+
+            for idx2 = 1:length(link2.corrs_from)
+                break_while = true;
+                if link2.corrs_from(idx2) == idx_corr
+                    break_while = false;
+                    break;
+                end
+            end
+
+            if break_while
+                break
+            end
+
+            link = link2;
+            idx = idx2;
         end
-        break_while = true;
-    end
-    
-    if break_while
-        break
-    end
-    
-    for pt_idx = 1:length(link.corrs_from)
-        if link.corrs_from(pt_idx) == pt_idx_to
-            break;
+        
+        if size(trail,2) >= 3
+            tr.trail = trail;
+            tr.idx_list = idx_list;
+            feat_trail = [feat_trail {tr}];
         end
     end
-    
-    pt_idx_from = link.corrs_from(pt_idx);
-    H = link.H_from_to_origin;
-    trail = [trail, apply_H(H,link.pts_from(:,pt_idx_from))];
-end
+    feat_trails{i} = feat_trail;
+end  
 
-trail
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -15,9 +15,7 @@ img_hom = cell(1,M);
 for i = 1:M
     idxA = idx(i,1);
     idxB = idx(i,2);
-    
-    
-    
+
     imgA = imgs{idxA};
     imgB = imgs{idxB};
 
