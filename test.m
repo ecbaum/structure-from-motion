@@ -33,3 +33,20 @@ H56 = img_hom{6}.H;
 
 H63 =inv(H34)*inv(H45)*inv(H56);
 
+
+
+%%
+feat_trails = feature_trail(corrs_links, origin_TF);
+%%
+n = 0;
+m = 0;
+for i = 1:length(feat_trails)
+    if length(feat_trails{i}.trail) >= 3
+        m = m +1;
+        [~,e]=refine_estimation(convert_trail(feat_trails{i},origin_TF,TF_idx), 3, 0.002, 0.001);
+        if e > 0
+            n = n+1;
+        end
+    end
+end
+n

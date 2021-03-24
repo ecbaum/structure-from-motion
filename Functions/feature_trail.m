@@ -5,6 +5,7 @@ origin = origin_TF{1}.idx_from;
 feat_trails = cell(0,0);
 
 for i = 1:length(corrs_links)
+    %i = 5;
     link0 = corrs_links{i}; 
     
     for idx0 = 1:length(link0.corrs_from)
@@ -61,7 +62,7 @@ for i = 1:length(corrs_links)
         end
         
         tr = [];
-        if size(trail,2) >= 3
+        if size(trail,2) >= 2
             tr.trail = trail;
             tr.idx_list = idx_list;
         end
@@ -71,13 +72,17 @@ for i = 1:length(corrs_links)
         end
         
         match = false;
-        
+        %disp('trail:')
+        %tr
+        %pause(1)
         for j = 1:length(feat_trails)
             feat_trail_cmp = feat_trails{j}; % To compare wth
             
             for k = 1:length(feat_trail_cmp.idx_list)
                 if feat_trail_cmp.idx_list(k) == tr.idx_list(k) && tr.idx_list(k) ~= 0
                     match = true;
+                    %disp('match')
+                    %feat_trail_cmp
                     break;
                 end
             end
@@ -91,11 +96,15 @@ for i = 1:length(corrs_links)
                         feat_trails{j}.idx_list(k) = tr.idx_list(k);
                     end
                 end
+                feat_trails{j}.idx_list;
                 break;
             end 
         end
         if ~match && ~isempty(tr)
-            feat_trails = [feat_trails, {tr}];
+            if size(tr.trail,2) > 3
+               feat_trails = [feat_trails, {tr}];
+            end
+            
         end
     end
 end  
